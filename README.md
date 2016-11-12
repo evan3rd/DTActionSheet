@@ -1,8 +1,8 @@
 ## Introduction
 
-![Demo](Demo.gif)
-
 Simple customizable action sheet.
+
+![Demo](Demo.gif)
 
 ## Installation
 
@@ -124,7 +124,7 @@ class DatePickerSheet: DTActionSheet {
 
 ### Use
 
-```
+```swift
 class ViewController: UIViewController {
   
   @IBOutlet weak var button: UIButton!
@@ -141,7 +141,7 @@ class ViewController: UIViewController {
   
 }
 
-// MARK: -
+// MARK: - DatePickerSheetDelegate
 
 extension ViewController: DatePickerSheetDelegate {
   
