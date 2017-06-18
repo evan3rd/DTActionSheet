@@ -18,6 +18,13 @@ public enum DTActionSheetStyle {
 
 open class DTActionSheet: UIView {
 
+  public static func imageWithName(_ name: String) -> UIImage? {
+    let bundle = Bundle(for: DTActionSheet.self)
+    let url = bundle.url(forResource: "DTActionSheet", withExtension: "bundle")!
+    let imageBundle = Bundle(url: url)
+    return UIImage(named: name, in: imageBundle, compatibleWith: nil)
+  }
+  
   open var contentViewHeight: CGFloat {
     return 200
   }
