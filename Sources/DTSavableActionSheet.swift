@@ -22,7 +22,7 @@ open class DTSavableActionSheet: DTDismissibleActionSheet {
     layoutSaveButton()
   }
   
-  fileprivate func layoutSaveButton() {
+  private func layoutSaveButton() {
     saveButton.tintColor = UIColor.white
     saveButton.setImage(DTActionSheet.imageWithName("save")?.withRenderingMode(.alwaysTemplate), for: .normal)
     

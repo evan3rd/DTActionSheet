@@ -22,7 +22,7 @@ open class DTDismissibleActionSheet: DTActionSheet {
     layoutDismissButton()
   }
   
-  fileprivate func layoutDismissButton() {
+  private func layoutDismissButton() {
     dismissButton.tintColor = UIColor.white
     dismissButton.setImage(DTActionSheet.imageWithName("dismiss")?.withRenderingMode(.alwaysTemplate), for: .normal)
     dismissButton.addTarget(self, action: #selector(dismiss), for: UIControlEvents.touchUpInside)

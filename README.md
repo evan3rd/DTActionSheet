@@ -1,6 +1,6 @@
 # DTActionSheet
 
-[![Swift](https://img.shields.io/badge/Swift-3.0-ff3f26.svg?style=flat)](https://swift.org/)
+[![Swift](https://img.shields.io/badge/Swift-4.0-ff3f26.svg?style=flat)](https://swift.org/)
 [![Platform](https://img.shields.io/cocoapods/p/DTActionSheet.svg?style=flat)](http://cocoadocs.org/docsets/DTActionSheet)
 [![CocoaPods](http://img.shields.io/cocoapods/v/DTActionSheet.svg)](https://cocoapods.org/pods/DTActionSheet)
 [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
@@ -53,83 +53,35 @@ Subclass following 3 classes with subtle differences:
 * DTDismissibleActionSheet - With dismiss button on the left
 * DTSavableActionSheet - With dismiss button on the left and save button on the right
 
-```swift
-protocol DatePickerSheetDelegate {
-  func datePickerSheet(_ sheet: DatePickerSheet, didSaveDate date: Date)
-}
+You can review source code of `DTDatePickerSheet` to know how to write your own action sheet.
 
-class DatePickerSheet: DTSavableActionSheet {
-  
-  override var contentViewHeight: CGFloat {
-    return 250
-  }
-  
-  var delegate: DatePickerSheetDelegate?
-  
-  fileprivate let datePicker = UIDatePicker()
-  
-  required init?(coder aDecoder: NSCoder) {
-    fatalError("init(coder:) has not been implemented")
-  }
-  
-  init() {
-    super.init(style: .transparent)
-    
-    contentView.backgroundColor = UIColor.red
-    
-    saveButton.addTarget(self, action: #selector(save), for: UIControlEvents.touchUpInside)
-    layoutDatePicker()
-  }
-  
-  func save() {
-    cancel()
-    delegate?.datePickerSheet(self, didSaveDate: datePicker.date)
-  }
-  
-  // MARK: - Private
-  
-  fileprivate func layoutDatePicker() {
-    datePicker.datePickerMode = .date
-    
-    contentView.addSubview(datePicker)
-    
-    datePicker.translatesAutoresizingMaskIntoConstraints = false
-    
-    let bottom = NSLayoutConstraint(item: datePicker, attribute: .bottom, relatedBy: .equal, toItem: contentView, attribute: .bottom, multiplier: 1, constant: 0)
-    let centerX = NSLayoutConstraint(item: datePicker, attribute: .centerX, relatedBy: .equal, toItem: contentView, attribute: .centerX, multiplier: 1, constant: 0)
-    
-    contentView.addConstraints([bottom, centerX])
-  }
-  
-}
-```
+### Reusable Components
+
+* DTDatePickerSheet - UIDatePicker in action sheet.
+* More to come...
 
 ### Use
 
 ```swift
 class ViewController: UIViewController {
   
-  @IBOutlet weak var button: UIButton!
-
+  private let formatter = DateFormatter()
+  
   override func viewDidLoad() {
     super.viewDidLoad()
+    
+    formatter.dateStyle = .short
   }
 
-  @IBAction func changeDate(_ sender: AnyObject) {
-    let sheet = DatePickerSheet()
-    sheet.delegate = self
+  @IBAction func changeDate(_ sender: UIButton) {
+    let sheet = DTDatePickerSheet(style: .dark)
+    sheet.setTitle("Choose Date")
+    sheet.configDatePicker(mode: .date, date: Date()) { [unowned self] date in
+      let title = self.formatter.string(from: date)
+      sender.setTitle(title, for: .normal)
+    }
     sheet.show()
   }
   
-}
-
-// MARK: - DatePickerSheetDelegate
-
-extension ViewController: DatePickerSheetDelegate {
-  
-  func datePickerSheet(_ sheet: DatePickerSheet, didSaveDate date: Date) {
-    button.setTitle(date.description, for: .normal)
-  }
-
 }
 ```

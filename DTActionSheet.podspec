@@ -1,11 +1,11 @@
 Pod::Spec.new do |spec|
   spec.name = "DTActionSheet"
-  spec.version = "1.0.1"
+  spec.version = "1.0.2"
   spec.summary = "Simple customizable action sheet."
   spec.homepage = "https://github.com/danjiang/DTActionSheet"
   spec.license = { type: 'MIT', file: 'LICENSE' }
-  spec.authors = { "Dan Jiang" => 'dan@danthought.com' }
-  spec.social_media_url = "http://twitter.com/dtstudio"
+  spec.authors = { "Dan Jiang" => 'danjiang5956@gmail.com' }
+  spec.social_media_url = "http://twitter.com/danjianglife"
 
   spec.platform = :ios, "8.4"
   spec.requires_arc = true

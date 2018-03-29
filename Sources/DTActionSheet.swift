@@ -30,9 +30,11 @@ open class DTActionSheet: UIView {
   }
   public let contentView = UIView()
   
-  fileprivate let style: DTActionSheetStyle
-  fileprivate var overlayView: UIView!
-  
+  private let style: DTActionSheetStyle
+  private var overlayView: UIView!
+  private let titleLabel = UILabel()
+  private var titleLabelTop: NSLayoutConstraint!
+
   public required init?(coder aDecoder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
@@ -44,6 +46,20 @@ open class DTActionSheet: UIView {
     
     layoutOverlayView()
     layoutContentView()
+    layoutTitleLabel()
+  }
+  
+  public func setTitle(_ title: String, font: UIFont? = nil, textColor: UIColor? = nil, top: CGFloat? = nil) {
+    titleLabel.text = title
+    if let font = font {
+      titleLabel.font = font
+    }
+    if let textColor = textColor {
+      titleLabel.textColor = textColor
+    }
+    if let top = top {
+      titleLabelTop.constant = top
+    }
   }
   
   // MARK: - Actions
@@ -67,7 +83,7 @@ open class DTActionSheet: UIView {
     }
   }
   
-  public func dismiss() {
+  @objc public func dismiss() {
     let width = frame.width
     let height = frame.height
     
@@ -87,7 +103,7 @@ open class DTActionSheet: UIView {
   
   // MARK: - Private
   
-  fileprivate func layoutOverlayView() {
+  private func layoutOverlayView() {
     switch style {
     case .transparent:
       overlayView = UIView()
@@ -121,7 +137,7 @@ open class DTActionSheet: UIView {
     addConstraints([top, bottom, leading, trailing])
   }
   
-  fileprivate func layoutContentView() {
+  private func layoutContentView() {
     addSubview(contentView)
 
     contentView.translatesAutoresizingMaskIntoConstraints = false
@@ -132,6 +148,22 @@ open class DTActionSheet: UIView {
     let height = NSLayoutConstraint(item: contentView, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 0, constant: contentViewHeight)
 
     addConstraints([bottom, leading, trailing, height])
+  }
+  
+  private func layoutTitleLabel() {
+    titleLabel.font = UIFont.systemFont(ofSize: 21)
+    titleLabel.textColor = UIColor(red:0.26, green:0.26, blue:0.26, alpha:1.00)
+    
+    contentView.addSubview(titleLabel)
+
+    titleLabel.translatesAutoresizingMaskIntoConstraints = false
+
+    let top = NSLayoutConstraint(item: titleLabel, attribute: .top, relatedBy: .equal, toItem: contentView, attribute: .top, multiplier: 1, constant: 16)
+    let centerX = NSLayoutConstraint(item: titleLabel, attribute: .centerX, relatedBy: .equal, toItem: contentView, attribute: .centerX, multiplier: 1, constant: 0)
+
+    addConstraints([top, centerX])
+    
+    titleLabelTop = top
   }
 
 }

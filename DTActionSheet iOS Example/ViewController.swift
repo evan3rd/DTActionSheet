@@ -7,29 +7,26 @@
 //
 
 import UIKit
+import DTActionSheet
 
 class ViewController: UIViewController {
   
-  @IBOutlet weak var button: UIButton!
-
+  private let formatter = DateFormatter()
+  
   override func viewDidLoad() {
     super.viewDidLoad()
+    
+    formatter.dateStyle = .short
   }
 
-  @IBAction func changeDate(_ sender: AnyObject) {
-    let sheet = DatePickerSheet()
-    sheet.delegate = self
+  @IBAction func changeDate(_ sender: UIButton) {
+    let sheet = DTDatePickerSheet(style: .dark)
+    sheet.setTitle("Choose Date")
+    sheet.configDatePicker(mode: .date, date: Date()) { [unowned self] date in
+      let title = self.formatter.string(from: date)
+      sender.setTitle(title, for: .normal)
+    }
     sheet.show()
   }
   
-}
-
-// MARK: -
-
-extension ViewController: DatePickerSheetDelegate {
-  
-  func datePickerSheet(_ sheet: DatePickerSheet, didSaveDate date: Date) {
-    button.setTitle(date.description, for: .normal)
-  }
-
 }
